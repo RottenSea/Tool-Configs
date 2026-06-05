@@ -1,10 +1,13 @@
 {
   "$help": "https://aka.ms/terminal-documentation",
-  "$schema": "https://aka.ms/terminal-profiles-schema",
   "actions": [],
+  "centerOnLaunch": true,
   "copyFormatting": "none",
   "copyOnSelect": false,
   "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+  "initialCols": 100,
+  "initialRows": 60,
+  "initialPosition": "C:/Users/RottenTh",
   "keybindings": [
     {
       "id": "Terminal.CopyToClipboard",
@@ -29,8 +32,6 @@
       "colorScheme": "Dracula",
       "cursorShape": "filledBox",
       "font": {
-        "builtinGlyphs": true,
-        "colorGlyphs": true,
         "face": "JetBrainsMono Nerd Font Mono",
         "size": 10,
         "weight": "medium"
