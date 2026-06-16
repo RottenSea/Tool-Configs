@@ -1,4 +1,0 @@
-api.steampowered.com
-regexp:.cm.steampowered.com$
-regexp:.steamserver.net$
-regexp:cache.*.steamcontent.com$

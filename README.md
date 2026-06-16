@@ -1,4 +1,4 @@
-# Tool-Configs
+# dotfiles
 
 A repository for restore tool configs.
 
