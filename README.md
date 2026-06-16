@@ -2,20 +2,12 @@
 
 A repository for restore tool configs.
 
-### fastfetch
+## Configs
 
-JetBrain Nerd Font > https://www.nerdfonts.com/font-downloads > install
-
-File explore > %USERNAME% > .config > fastfetch
-
-### JPEGView
-
-C:\Users\RottenTh\AppData\Roaming\JPEGView
-
-### Terminal
-
-Terminal > Settings > Open JSON file
-
-### WindowsPowerShell
-
-%USERNAME%/Documents/WindowsPowerShell
+- Claude Code
+- Fastfetch
+- JPEGView
+- Opencode
+- VS Code
+- Windows PowerShell
+- Windows Terminal
