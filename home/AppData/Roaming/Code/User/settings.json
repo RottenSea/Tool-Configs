@@ -15,6 +15,10 @@
   "editor.occurrencesHighlight": "multiFile",
   "editor.suggestSelection": "recentlyUsed",
   "editor.wordWrap": "on",
+  "settingsSync.ignoredSettings": [
+    "-python.useEnvironmentsExtension",
+    "-python-envs.terminal.showActivateButton"
+  ],
 
   // ================ Workbench / UI ================
   "debug.showBreakpointsInOverviewRuler": true,
@@ -91,23 +95,36 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[markdown]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.wordWrap": "bounded",
+    "editor.wordWrapColumn": 150
   },
-  "[py]": {
+  "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[cmake]": {
+    "editor.defaultFormatter": "wysaid.clion-cmake-format"
+  },
+  "[glsl]": {
+    "editor.defaultFormatter": "nolanderc.glsl-analyzer"
+  },
+  // "[wxml]": {
+  //   "editor.defaultFormatter": "qiu8310.minapp-vscode"
+  // },
+  // "[wxss]": {
+  //   "editor.defaultFormatter": "qiu8310.minapp-vscode"
+  // },
+  // "[wxs]": {
+  //   "editor.defaultFormatter": "qiu8310.minapp-vscode"
+  // },
 
   // ================ Python ================
   "python.terminal.useEnvFile": true,
   "python.useEnvironmentsExtension": true,
   "python-envs.terminal.showActivateButton": true,
-  "settingsSync.ignoredSettings": [
-    "-python.useEnvironmentsExtension",
-    "-python-envs.terminal.showActivateButton"
-  ],
 
   // ================ Prettier ================
   "prettier.singleAttributePerLine": true,
@@ -166,17 +183,12 @@
   "makefile.configureOnOpen": true,
   "minapp-vscode.disableAutoConfig": true,
   "minapp-vscode.wxmlFormatter": "jsBeautifyHtml",
-  "vscode_custom_css.imports": []
+  "vscode_custom_css.imports": [],
+  "fittencode.cloudStorage.enabled": false,
+  "glsl-analyzer.path": "c:\\Users\\RottenTh\\AppData\\Roaming\\Code\\User\\globalStorage\\nolanderc.glsl-analyzer\\glsl_analyzer_install\\bin\\glsl_analyzer.exe",
+  "QoderCN.aI Chat.memories": false
+
   // "emmet.includeLanguages": {
   //   "wxml": "html"
-  // },
-  // "[wxml]": {
-  //   "editor.defaultFormatter": "qiu8310.minapp-vscode"
-  // },
-  // "[wxss]": {
-  //   "editor.defaultFormatter": "qiu8310.minapp-vscode"
-  // },
-  // "[wxs]": {
-  //   "editor.defaultFormatter": "qiu8310.minapp-vscode"
   // },
 }
