@@ -1,0 +1,139 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/2.66.0/doc/json_schema.json",
+  "logo": {
+    "type": "file",
+    "source": "~/.config/fastfetch/ascii.txt",
+    "color": {
+      "1": "#F5E0DC",
+      "2": "#F5C2E7",
+      "3": "#74C7EC",
+      "4": "#89DCEB",
+      "5": "#94E2D5",
+      "6": "#A6E3A1",
+      "7": "#F9E2AF",
+      "8": "#F9C3A9",
+      "9": "#F2CDCD"
+    },
+    "padding": {
+      "top": 1,
+      "right": 3
+    }
+  },
+  "display": {
+    "separator": " "
+  },
+  "modules": [
+    "break",
+    {
+      "type": "title",
+      "color": {
+        "user": "#F5C2E7",
+        "at": "#CDD6F4",
+        "host": "#89DCEB"
+      }
+    },
+    "break",
+    {
+      "type": "datetime",
+      "key": "󱑖 ",
+      "keyColor": "#8BE9FD",
+      "format": "{year}-{month-pretty}-{day-pretty} {hour-pretty}:{minute-pretty}:{second-pretty} ({timezone-name})"
+    },
+    {
+      "type": "os",
+      "key": " ├   OS  ",
+      "keyColor": "#89DCEB"
+    },
+    {
+      "type": "kernel",
+      "key": " ├   KER ",
+      "keyColor": "#89DCEB"
+    },
+    {
+      "type": "packages",
+      "key": " ├   PAK ",
+      "format": "{all}",
+      "keyColor": "#89DCEB"
+    },
+    {
+      "type": "host",
+      "key": " └ 󰢮  PC  ",
+      "keyColor": "#89DCEB"
+    },
+    "break",
+    "break",
+    {
+      "type": "wm",
+      "key": "WM  ",
+      "keyColor": "#F5C2E7"
+    },
+    {
+      "type": "de",
+      "key": " ├ 󱈹  DES ",
+      "keyColor": "#F5C2E7"
+    },
+    {
+      "type": "shell",
+      "key": " ├   SHE ",
+      "keyColor": "#F5C2E7"
+    },
+    {
+      "type": "terminal",
+      "key": " ├   TER ",
+      "keyColor": "#F5C2E7"
+    },
+    {
+      "type": "terminalfont",
+      "key": " └   TFO ",
+      "keyColor": "#F5C2E7"
+    },
+    "break",
+    "break",
+    {
+      "type": "board",
+      "key": "MB  ",
+      "keyColor": "#A6E3A1"
+    },
+    {
+      "type": "cpu",
+      "key": " ├   CPU ",
+      "keyColor": "#A6E3A1",
+      "format": "{name} @ {freq-max}"
+    },
+    {
+      "type": "gpu",
+      "key": " ├ 󰢮  GPU ",
+      "keyColor": "#A6E3A1",
+      "format": "{name} ({dedicated-total})"
+    },
+    {
+      "type": "memory",
+      "key": " ├   MEM ",
+      "keyColor": "#A6E3A1",
+      "format": "{used} / {total} ({percentage})"
+    },
+    {
+      "type": "swap",
+      "key": " ├   SWP ",
+      "keyColor": "#A6E3A1",
+      "format": "{used} / {total} ({percentage})"
+    },
+    {
+      "type": "display",
+      "key": " ├ 󱄄  MON ",
+      "keyColor": "#A6E3A1",
+      "format": "{name} {width}x{height} @ {refresh-rate} Hz"
+    },
+    {
+      "type": "disk",
+      "key": " └   DIS ",
+      "keyColor": "#A6E3A1"
+    },
+    "break",
+    "break",
+    {
+      "type": "colors",
+      "symbol": "circle"
+    }
+  ]
+}

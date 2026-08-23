@@ -1,0 +1,17 @@
+[font]
+normal = { family = "Maple Mono NL NF CN Medium" }
+
+[keyboard]
+bindings = [
+  { key = "C", mods = "Control", action = "Copy" },
+  { key = "V", mods = "Control", action = "Paste" },
+  { key = "C", mods = "Control|Shift", chars = "\u0003" },
+  { key = "V", mods = "Control|Shift", chars = "\u0016" },
+]
+
+[window]
+opacity = 0.8
+decorations = "None"
+
+[general]
+import = ["~/.config/alacritty/themes/noctalia.toml"]
