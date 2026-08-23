@@ -3,7 +3,7 @@
   "diffEditor.codeLens": true,
   "editor.acceptSuggestionOnEnter": "off",
   "editor.cursorBlinking": "solid",
-  "editor.cursorSurroundingLines": 50,
+  "editor.cursorSurroundingLines": 20,
   "editor.folding": false,
   "editor.fontFamily": "Maple Mono NL NF CN",
   "editor.fontWeight": "500",
@@ -13,8 +13,10 @@
   "editor.guides.bracketPairs": true,
   "editor.lightbulb.enabled": "off",
   "editor.occurrencesHighlight": "multiFile",
+  "editor.selectionClipboard": false,
   "editor.suggestSelection": "recentlyUsed",
-  "editor.wordWrap": "on",
+  "editor.wordWrap": "bounded",
+  "editor.wordWrapColumn": 70,
   "settingsSync.ignoredSettings": [
     "-python.useEnvironmentsExtension",
     "-python-envs.terminal.showActivateButton"
@@ -52,7 +54,8 @@
   "files.autoGuessEncoding": true,
 
   // ================ Terminal ================
-  "terminal.external.linuxExec": "ghostty",
+  "terminal.external.linuxExec": "kitty",
+  "terminal.integrated.initialHint": false,
   "terminal.integrated.accessibleViewPreserveCursorPosition": true,
   "terminal.integrated.defaultProfile.linux": "bash",
   "terminal.integrated.defaultProfile.windows": "PowerShell",
@@ -97,7 +100,7 @@
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.wordWrap": "bounded",
-    "editor.wordWrapColumn": 150
+    "editor.wordWrapColumn": 70
   },
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
@@ -119,6 +122,9 @@
   // },
   // "[wxs]": {
   //   "editor.defaultFormatter": "qiu8310.minapp-vscode"
+  // },
+  // "emmet.includeLanguages": {
+  //   "wxml": "html"
   // },
 
   // ================ Python ================
@@ -149,8 +155,14 @@
   // ================ AI Extensions — Claude Code ================
   "claudeCode.allowDangerouslySkipPermissions": true,
   "claudeCode.environmentVariables": [
-    { "name": "ANTHROPIC_BASE_URL", "value": "https://xxxx" },
-    { "name": "ANTHROPIC_AUTH_TOKEN", "value": "xxxx" }
+    {
+      "name": "ANTHROPIC_BASE_URL",
+      "value": "https://xxxx"
+    },
+    {
+      "name": "ANTHROPIC_AUTH_TOKEN",
+      "value": "xxxx"
+    }
   ],
   "claudeCode.initialPermissionMode": "bypassPermissions",
   "claudeCode.useTerminal": true,
@@ -170,8 +182,9 @@
   "fittencode.languagePreference.commentPreference": "en",
   "fittencode.languagePreference.displayPreference": "en",
   "fittencode.selection.showCodeLens": false,
+  "fittencode.cloudStorage.enabled": false,
 
-  // ================ AI Extensions — Other ================
+  // ================ AI Extensions — VSCode Copilot ================
   "chat.disableAIFeatures": true,
 
   // ================ Other Extensions ================
@@ -183,12 +196,7 @@
   "makefile.configureOnOpen": true,
   "minapp-vscode.disableAutoConfig": true,
   "minapp-vscode.wxmlFormatter": "jsBeautifyHtml",
+  "QoderCN.aI Chat.memories": false,
   "vscode_custom_css.imports": [],
-  "fittencode.cloudStorage.enabled": false,
-  "glsl-analyzer.path": "c:\\Users\\RottenTh\\AppData\\Roaming\\Code\\User\\globalStorage\\nolanderc.glsl-analyzer\\glsl_analyzer_install\\bin\\glsl_analyzer.exe",
-  "QoderCN.aI Chat.memories": false
-
-  // "emmet.includeLanguages": {
-  //   "wxml": "html"
-  // },
+  "update.mode": "manual"
 }

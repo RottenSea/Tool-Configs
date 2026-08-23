@@ -18,11 +18,11 @@
     "ANTHROPIC_AUTH_TOKEN": "",
     "ANTHROPIC_BASE_URL": "",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-haiku-4-5",
-    "ANTHROPIC_DEFAULT_HAIKU_MODEL_NAME": "Haiku 4.5",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL_NAME": "Haiku",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-opus-4-8[1M]",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL_NAME": "Opus 4.8",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL_NAME": "Opus",
     "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-sonnet-4-6[1M]",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL_NAME": "Sonnet 5",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL_NAME": "Sonnet",
     "BASH_MAX_TIMEOUT_MS": "240000",
     "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
     "CLAUDE_CODE_DISABLE_ADVISOR_TOOL": "1",
@@ -36,10 +36,7 @@
   "outputStyle": "Explanatory",
   "permissions": {
     "defaultMode": "bypassPermissions",
-    "deny": [
-      "Artifact",
-      "WebSearch"
-    ]
+    "deny": ["Artifact", "WebSearch"]
   },
   "preferredNotifChannel": "notifications_disabled",
   "promptSuggestionEnabled": false,
