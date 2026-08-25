@@ -1,2 +1,6 @@
 linux/.config/opencode/opencode.jsonc
 linux/.config/zed/settings.json
+
+windows/.claude/settings.json
+windows/.config/opencode/opencode.jsonc
+windows/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
