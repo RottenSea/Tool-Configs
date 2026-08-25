@@ -9,12 +9,11 @@ catch {}
 
 # DefaultPath 
 $defaultPaths = @(
-    "$env:USERPROFILE",
     "$env:windir\System32"
 )
 
 if ($PWD.Path -in $defaultPaths) {
-    Set-Location "$env:USERPROFILE\Desktop\Archived\Assets\Docs"
+    Set-Location "$env:USERPROFILE"
 }
 
 Clear-Host
