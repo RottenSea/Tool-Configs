@@ -3,15 +3,16 @@ set -euo pipefail
 
 # ============================================
 # Dotfiles Installer — Linux
-# 策略: 普通文件直接软链接；.template 文件先在仓库内物化，再对物化结果软链接。
-# 所有最终部署到 ~/ 的都是软链接，修改直接反馈到仓库。
+# Strategy: Symlink regular files directly; for .template files, materialize
+# inside the repo first, then symlink the materialized result.
+# Everything deployed to ~/ is a symlink, so edits feed back to the repo.
 # ============================================
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLATFORM_DIR="$REPO_ROOT/linux"
 BACKUP_DIR="$HOME/dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
 
-# 颜色定义
+# Color definitions
 C_RESET='\033[0m'
 C_RED='\033[0;31m'
 C_GREEN='\033[0;32m'
@@ -25,7 +26,7 @@ log_warn()  { echo -e "${C_YELLOW}[WARN]${C_RESET} $*"; }
 log_error() { echo -e "${C_RED}[ERROR]${C_RESET} $*"; }
 
 # --------------------------------------------
-# 平台检测
+# Platform detection
 # --------------------------------------------
 detect_platform() {
     case "$(uname -s)" in
@@ -35,8 +36,8 @@ detect_platform() {
 }
 
 # --------------------------------------------
-# 备份已存在的目标文件/目录/链接
-# 保持目录结构，便于一键恢复
+# Backup existing target file/directory/symlink
+# Preserves directory structure for easy restoration
 # --------------------------------------------
 backup_target() {
     local target="$1"
@@ -45,13 +46,13 @@ backup_target() {
         local backup_path="$BACKUP_DIR/$rel_path"
         mkdir -p "$(dirname "$backup_path")"
         mv "$target" "$backup_path"
-        log_warn "已备份 → $backup_path"
+        log_warn "Backed up → $backup_path"
     fi
 }
 
 # --------------------------------------------
-# 创建软链接（统一入口）
-# src: 仓库内的源文件路径
+# Create symlink (unified entry point)
+# src: source file path inside the repo
 # --------------------------------------------
 create_symlink() {
     local src="$1"
@@ -61,92 +62,105 @@ create_symlink() {
     mkdir -p "$(dirname "$dst")"
     backup_target "$dst"
     ln -s "$src" "$dst"
-    log_ok "链接 $rel_path"
+    log_ok "Linked $rel_path"
 }
 
 # --------------------------------------------
-# 主流程
+# Materialize a .template file inside the repo
+# Returns 0 if newly generated, 1 if already exists
+# --------------------------------------------
+materialize_template() {
+    local template_file="$1"
+    local real_file="${template_file%.template}"
+
+    if [[ -f "$real_file" ]]; then
+        log_info "Materialized file already exists: ${real_file#$REPO_ROOT/}"
+        return 1
+    fi
+
+    cp "$template_file" "$real_file"
+    log_warn "Generated from template: ${real_file#$REPO_ROOT/}"
+    return 0
+}
+
+# --------------------------------------------
+# Main flow
 # --------------------------------------------
 main() {
     echo -e "${C_CYAN}"
     echo "╔════════════════════════════════════════════════════════════╗"
     echo "║           Dotfiles Installer (Linux)                       ║"
-    echo "║  普通文件 → 直接软链接                                   ║"
-    echo "║  .template → 仓库内物化 → 对物化结果软链接               ║"
+    echo "║  Regular files → direct symlink                            ║"
+    echo "║  .template → materialize in repo → symlink result          ║"
     echo "╚════════════════════════════════════════════════════════════╝"
     echo -e "${C_RESET}"
 
     if [[ "$(detect_platform)" != "linux" ]]; then
-        log_error "当前脚本仅支持 Linux。"
+        log_error "This script only supports Linux."
         exit 1
     fi
 
     if [[ ! -d "$PLATFORM_DIR" ]]; then
-        log_error "未找到 $PLATFORM_DIR，请在仓库根目录运行此脚本。"
+        log_error "$PLATFORM_DIR not found. Please run this script from the repo root."
         exit 1
     fi
 
-    log_info "备份目录: $BACKUP_DIR"
+    log_info "Backup directory: $BACKUP_DIR"
     mkdir -p "$BACKUP_DIR"
 
     local link_count=0
     local generated_count=0
 
     # ========================================
-    # 第一阶段：处理所有 .template 文件
+    # Phase 1: Process all .template files
     # ========================================
     while IFS= read -r -d '' template_file; do
-        local real_file="${template_file%.template}"
-
-        # 1. 物化：如果真实文件不存在，从模板复制生成（在仓库目录内）
-        if [[ ! -f "$real_file" ]]; then
-            cp "$template_file" "$real_file"
-            log_warn "从模板生成: ${real_file#$REPO_ROOT/}"
-            ((generated_count++))
-        else
-            log_info "物化文件已存在: ${real_file#$REPO_ROOT/}"
+        # 1. Materialize: copy template to real file inside the repo
+        if materialize_template "$template_file"; then
+            (( ++generated_count ))
         fi
 
-        # 2. 对物化后的真实文件创建软链接到 ~/
+        # 2. Create symlink from ~/ to the materialized real file
+        local real_file="${template_file%.template}"
         create_symlink "$real_file"
-        ((link_count++))
+        (( ++link_count ))
 
     done < <(find "$PLATFORM_DIR" -type f -name "*.template" -print0)
 
     # ========================================
-    # 第二阶段：处理普通文件
-    # 跳过"已有对应 .template 的文件"（它们已在第一阶段被链接）
+    # Phase 2: Process regular files
+    # Skip files that have a corresponding .template (already linked in Phase 1)
     # ========================================
     while IFS= read -r -d '' file; do
         if [[ -f "$file.template" ]]; then
-            log_info "跳过: ${file#$PLATFORM_DIR/}（由对应模板管理）"
+            log_info "Skipping: ${file#$PLATFORM_DIR/} (managed by corresponding template)"
             continue
         fi
 
         create_symlink "$file"
-        ((link_count++))
+        (( ++link_count ))
 
     done < <(find "$PLATFORM_DIR" -type f ! -name "*.template" -print0)
 
     # ========================================
-    # 总结
+    # Summary
     # ========================================
     echo ""
     echo -e "${C_GREEN}════════════════════════════════════════════════════════════${C_RESET}"
-    log_ok "部署完成!"
-    log_info "软链接总数:      ${C_GREEN}$link_count${C_RESET} 个"
-    log_info "新生成物化文件:  ${C_GREEN}$generated_count${C_RESET} 个"
-    log_info "备份位置:        ${C_GREEN}$BACKUP_DIR${C_RESET}"
+    log_ok "Deployment complete!"
+    log_info "Total symlinks:       ${C_GREEN}$link_count${C_RESET}"
+    log_info "Newly materialized:   ${C_GREEN}$generated_count${C_RESET}"
+    log_info "Backup location:      ${C_GREEN}$BACKUP_DIR${C_RESET}"
     echo -e "${C_GREEN}════════════════════════════════════════════════════════════${C_RESET}"
     echo ""
 
     if [[ $generated_count -gt 0 ]]; then
-        log_warn "检测到新生成的敏感配置文件，请手动填入密钥。"
-        log_info "这些文件已被 .gitignore 排除，不会入仓。密钥仅保存在本地。"
-        log_info "换机器时需重新运行 install.sh 从模板物化并填入密钥。"
+        log_warn "Sensitive config files were generated from templates. Please edit them manually."
+        log_info "These files are excluded by .gitignore and will not be committed. Secrets stay local."
+        log_info "When moving to a new machine, re-run install.sh to materialize templates and fill in secrets."
     fi
 
-    log_warn "部分配置（Shell、桌面环境）需要注销并重新登录才能完全生效"
+    log_warn "Some configurations (Shell, desktop environment) require logging out and back in to take full effect."
 }
 
 main "$@"
