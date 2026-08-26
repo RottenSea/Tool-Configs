@@ -1,29 +1,31 @@
 # dotfiles
 
-A centralized repository for cross-platform configuration files (Linux & Windows).
+Cross-platform config for Linux and Windows, kept in one repo.
 
-## Structure
+## Layout
 
-- `linux/`: Linux-specific configurations and dotfiles.
-- `windows/`: Windows-specific configurations.
+- `linux/` — Linux configs and dotfiles.
+- `windows/` — Windows configs.
 
-## Configured Tools
+## Tools covered
 
 ### Linux
-- **Shell & Core**: `.bashrc`, `.bash_profile`, `.gitconfig`, `.npmrc`, `.prettierrc.json`
-- **Terminal**: Alacritty, Kitty
-- **Editors**: Zed, VS Code
-- **System & UI**: Niri, XDG-Desktop-Portal, XFCE, Fastfetch, Fcitx5, Noctalia
-- **AI & CLI**: OpenCode, GitHub CLI
+
+- Shell and core: `.bashrc`, `.bash_profile`, `.gitconfig`, `.npmrc`, `.prettierrc.json`
+- Terminal: Alacritty, Kitty
+- Editors: Zed, VS Code
+- System and UI: Niri, XDG-Desktop-Portal, XFCE, Fastfetch, Fcitx5, Noctalia
+- AI and CLI: OpenCode, GitHub CLI
 
 ### Windows
+
 - Windows PowerShell
 - Windows Terminal
 
-## Secrets Handling
+## Secrets
 
-To prevent API keys and tokens from being leaked, this repository follows a **Sanitized Template** approach:
-- Actual secret files are added to `.gitignore`.
-- A redacted version (`*.template`) is committed with placeholders (e.g., `YOUR_TOKEN`).
-- Users should copy the template to the actual filename and fill in their own credentials.
+API keys and tokens never get committed. The repo uses a sanitized template pattern:
 
+- The real secret file goes in `.gitignore`.
+- A redacted copy with the same name plus `.template` is committed. Placeholders like `YOUR_TOKEN` mark where secrets go.
+- On a new machine, copy the template to its real path and fill in your own values.
