@@ -95,29 +95,7 @@
   "buffer_font_weight": 500.0,
   "buffer_font_family": "Maple Mono NL NF CN",
   "language_models": {
-    "openai_compatible": {
-      "kilo": {
-        "api_url": "https://api.kilo.ai/api/gateway",
-        "available_models": [
-          {
-            "name": "tencent/hy3:free",
-            "max_tokens": 256000,
-            "max_output_tokens": 64000,
-            "max_completion_tokens": 64000,
-            "reasoning_effort": "high",
-            "capabilities": {
-              "tools": true,
-              "images": false,
-              "parallel_tool_calls": true,
-              "prompt_cache_key": false,
-              "chat_completions": true,
-              "interleaved_reasoning": true,
-              "max_tokens_parameter": false
-            }
-          }
-        ]
-      }
-    }
+    "openai_compatible": {}
   },
   "agent": {
     "default_profile": "ask",
@@ -149,8 +127,8 @@
     },
     "enable_feedback": false,
     "default_model": {
-      "provider": "kilo",
-      "model": "tencent/hy3:free",
+      "provider": "PROVIDER_ID",
+      "model": "MODEL_ID",
       "enable_thinking": true,
       "effort": "high"
     },
