@@ -7,7 +7,6 @@
 
   "permission": {
     "external_directory": {
-      "~/Archived/Assets/Docs/**": "allow",
       "/tmp/**": "allow"
     }
   },
@@ -36,45 +35,6 @@
       "enabled": true,
       "headers": {
         "Authorization": "Bearer YOUR_TOKEN"
-      }
-    }
-  },
-
-  "provider": {
-    "opencode": {
-      "whitelist": []
-    },
-    "PROVIDER_ID": {
-      "name": "PROVIDER_NAME",
-      "npm": "@ai-sdk/openai-compatible",
-      "options": {
-        "baseURL": "URL",
-        "apiKey": "YOUR_API_KEY"
-      },
-      "whitelist": ["MODEL_ID"],
-      "models": {
-        "MODEL_ID": {
-          "name": "MODEL_NAME",
-          "limit": {
-            "context": 256000,
-            "output": 128000
-          },
-          "options": {
-            "reasoningEffort": "high",
-            "textVerbosity": "low"
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low"
-            },
-            "medium": {
-              "reasoningEffort": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high"
-            }
-          }
-        }
       }
     }
   }

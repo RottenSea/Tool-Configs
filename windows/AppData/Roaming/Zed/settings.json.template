@@ -11,78 +11,78 @@
   "cli_default_open_behavior": "existing_window",
   "agent_servers": {},
   "outline_panel": {
-    "auto_fold_dirs": false
+    "auto_fold_dirs": false,
   },
   "context_servers": {
     "exa": {
       "url": "https://mcp.exa.ai/mcp",
       "headers": {
-        "x-api-key": "YOUR_EXA_API_KEY"
-      }
+        "x-api-key": "YOUR_EXA_API_KEY",
+      },
     },
     "context7": {
       "url": "https://mcp.context7.com/mcp",
       "headers": {
-        "Authorization": "Bearer YOUR_TOKEN"
-      }
+        "Authorization": "Bearer YOUR_TOKEN",
+      },
     },
     "github": {
       "url": "https://api.githubcopilot.com/mcp",
       "headers": {
-        "Authorization": "Bearer YOUR_TOKEN"
-      }
-    }
+        "Authorization": "Bearer YOUR_TOKEN",
+      },
+    },
   },
   "context_server_timeout": 30,
   "proxy": "",
   "title_bar": {
-    "show_branch_status_icon": true
+    "show_branch_status_icon": true,
   },
   "git": {
     "inline_blame": {
-      "enabled": false
-    }
+      "enabled": false,
+    },
   },
   "inlay_hints": {
-    "enabled": true
+    "enabled": true,
   },
   "inline_code_actions": true,
   "gutter": {
     "git_gutter_width": {
-      "custom": 2.0
-    }
+      "custom": 2.0,
+    },
   },
   "format_on_save": "on",
   "indent_guides": {
     "line_width": 2,
     "active_line_width": 2,
-    "enabled": true
+    "enabled": true,
   },
   "soft_wrap": "editor_width",
   "toolbar": {
-    "code_actions": false
+    "code_actions": false,
   },
   "minimap": {
     "max_width_columns": 50,
-    "show": "always"
+    "show": "always",
   },
   "scrollbar": {
     "axes": {
-      "horizontal": false
+      "horizontal": false,
     },
-    "show": "always"
+    "show": "always",
   },
   "auto_update": false,
   "git_panel": {
-    "tree_view": false
+    "tree_view": false,
   },
   "terminal": {
     "button": false,
-    "dock": "bottom"
+    "dock": "bottom",
   },
   "debugger": {
     "button": false,
-    "dock": "bottom"
+    "dock": "bottom",
   },
   "when_closing_with_no_tabs": "keep_window_open",
   "current_line_highlight": "all",
@@ -95,67 +95,60 @@
   "buffer_font_weight": 500.0,
   "buffer_font_family": "Maple Mono NL NF CN",
   "language_models": {
-    "openai_compatible": {}
+    "openai_compatible": {},
   },
   "agent": {
-    "default_profile": "ask",
     "sandbox_permissions": {
-      "allow_unsandboxed": true
+      "allow_unsandboxed": true,
     },
     "tool_permissions": {
       "tools": {
         "mcp:exa:web_search_exa": {
-          "default": "allow"
+          "default": "allow",
         },
         "mcp:exa:web_fetch_exa": {
-          "default": "allow"
+          "default": "allow",
         },
         "mcp:context7:resolve-library-id": {
-          "default": "allow"
+          "default": "allow",
         },
         "mcp:context7:query-docs": {
-          "default": "allow"
+          "default": "allow",
         },
         "terminal": {
           "always_allow": [
             {
-              "pattern": "^git\\b"
-            }
-          ]
-        }
-      }
+              "pattern": "^git\\b",
+            },
+          ],
+        },
+      },
     },
     "enable_feedback": false,
-    "default_model": {
-      "provider": "PROVIDER_ID",
-      "model": "MODEL_ID",
-      "enable_thinking": true,
-      "effort": "high"
-    },
     "sidebar_side": "right",
     "dock": "right",
     "favorite_models": [],
-    "model_parameters": []
+    "model_parameters": [],
   },
   "project_panel": {
     "auto_fold_dirs": false,
-    "dock": "left"
+    "dock": "left",
   },
   "icon_theme": {
     "mode": "system",
     "light": "Catppuccin Latte",
-    "dark": "Catppuccin Mocha"
+    "dark": "Catppuccin Mocha",
   },
   "telemetry": {
     "diagnostics": true,
     "metrics": true,
-    "anthropic_retention": false
+    "anthropic_retention": false,
   },
   "ui_font_size": 16.0,
   "buffer_font_size": 14.0,
   "theme": {
     "mode": "system",
     "light": "Catppuccin Latte - No Italics",
-    "dark": "Catppuccin Mocha - No Italics"
-  }
+    "dark": "Catppuccin Mocha - No Italics",
+  },
 }
