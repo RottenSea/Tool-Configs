@@ -5,7 +5,8 @@ Cross-platform config for Linux and Windows, kept in one repo.
 ## Layout
 
 - `linux/` — Linux configs and dotfiles.
-- `windows/` — Windows configs.
+- `windows/` — Windows configs, actively deployed via `install.ps1`.
+- `Legacy/` — retired configs kept for reference only; not installed or symlinked anywhere.
 
 ## Tools covered
 
@@ -19,8 +20,21 @@ Cross-platform config for Linux and Windows, kept in one repo.
 
 ### Windows
 
-- Windows PowerShell
+- Fastfetch
+- OpenCode
+- Zed
 - Windows Terminal
+- Windows PowerShell profile
+
+## Installing on Windows
+
+From the repo root:
+
+```powershell
+.\install.ps1
+```
+
+It symlinks everything under `windows/` into place under `%USERPROFILE%`, `%APPDATA%`, or `%LOCALAPPDATA%` (mapped by path), materializing any `.template` file into a real file first. Creating symlinks needs either an elevated PowerShell or Developer Mode enabled (Settings → Privacy & Security → Developer Mode).
 
 ## Secrets
 
