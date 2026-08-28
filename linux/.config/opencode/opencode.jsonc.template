@@ -44,17 +44,17 @@
     "opencode": {
       "whitelist": []
     },
-    "kilo": {
-      "name": "kilo",
+    "PROVIDER_ID": {
+      "name": "PROVIDER_NAME",
       "npm": "@ai-sdk/openai-compatible",
       "options": {
-        "baseURL": "https://api.kilo.ai/api/gateway",
+        "baseURL": "URL",
         "apiKey": "YOUR_API_KEY"
       },
-      "whitelist": ["tencent/hy3:free"],
+      "whitelist": ["MODEL_ID"],
       "models": {
-        "tencent/hy3:free": {
-          "name": "Hy3",
+        "MODEL_ID": {
+          "name": "MODEL_NAME",
           "limit": {
             "context": 256000,
             "output": 128000
