@@ -4,25 +4,6 @@ param()
 
 $ErrorActionPreference = 'Stop'
 
-# Windows PowerShell 5.1's `New-Item -ItemType SymbolicLink` calls CreateSymbolicLink
-# without SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE, so it always requires elevation
-# even with Developer Mode enabled. Call the Win32 API directly with that flag instead.
-Add-Type -Namespace DotfilesNative -Name SymLink -MemberDefinition @'
-[DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-public static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
-'@
-
-function New-Symlink {
-    param([string]$Path, [string]$Value)
-
-    # SYMBOLIC_LINK_FLAG_FILE (0) | SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE (2)
-    $ok = [DotfilesNative.SymLink]::CreateSymbolicLink($Path, $Value, 2)
-    if (-not $ok) {
-        $errCode = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
-        throw "Failed to create symbolic link '$Path' -> '$Value' (Win32 error $errCode)"
-    }
-}
-
 # ============================================
 # Dotfiles Installer — Windows
 # Strategy: Symlink regular files directly; for .template files, materialize
@@ -118,6 +99,28 @@ function Backup-Target {
 }
 
 # --------------------------------------------
+# Create a symbolic link without requiring elevation
+# Windows PowerShell 5.1's New-Item -ItemType SymbolicLink omits
+# SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE, so it always demands admin
+# even with Developer Mode on. Call the Win32 API directly with that flag instead.
+# --------------------------------------------
+Add-Type -Namespace DotfilesNative -Name SymLink -MemberDefinition @'
+[DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+public static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
+'@
+
+function New-Symlink {
+    param([string]$Path, [string]$Value)
+
+    # SYMBOLIC_LINK_FLAG_FILE (0) | SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE (2)
+    $ok = [DotfilesNative.SymLink]::CreateSymbolicLink($Path, $Value, 2)
+    if (-not $ok) {
+        $errCode = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
+        throw "Failed to create symbolic link '$Path' -> '$Value' (Win32 error $errCode)"
+    }
+}
+
+# --------------------------------------------
 # Create symlink (unified entry point)
 # src: source file path inside the repo
 # --------------------------------------------
@@ -141,7 +144,7 @@ function New-DotfileSymlink {
         Remove-Item -Path $dstPath -Recurse -Force
     }
 
-    # Create symbolic link (via Win32 API directly; see New-Symlink for why)
+    # Create symbolic link
     New-Symlink -Path $dstPath -Value $SourcePath
     Write-Ok "Linked $relPath"
 }

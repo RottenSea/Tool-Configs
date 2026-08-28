@@ -7,7 +7,7 @@ try {
 }
 catch {}
 
-# DefaultPath 
+# DefaultPath
 $defaultPaths = @(
     "$env:windir\System32"
 )
