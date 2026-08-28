@@ -35,8 +35,7 @@
   "model": "sonnet",
   "outputStyle": "Explanatory",
   "permissions": {
-    "defaultMode": "bypassPermissions",
-    "deny": ["Artifact", "WebSearch"]
+    "defaultMode": "bypassPermissions"
   },
   "preferredNotifChannel": "notifications_disabled",
   "promptSuggestionEnabled": false,
