@@ -2,23 +2,16 @@
 
 Cross-platform config for Linux and Windows, kept in one repo.
 
-## Layout
+## Navigation
 
-- `linux/` — Linux configs and dotfiles.
-- `windows/` — Windows configs, actively deployed via `install.ps1`.
-- `Legacy/` — retired configs kept for reference only; not installed or symlinked anywhere.
+- [Windows](#windows)
+- [Linux](#linux)
+- [Layout](#layout)
+- [Secrets](#secrets)
 
-## Tools covered
+## Windows
 
-### Linux
-
-- Shell and core: `.bashrc`, `.bash_profile`, `.gitconfig`, `.npmrc`, `.prettierrc.json`
-- Terminal: Alacritty, Kitty
-- Editors: Zed, VS Code
-- System and UI: Niri, XDG-Desktop-Portal, XFCE, Fastfetch, Fcitx5, Noctalia
-- AI and CLI: OpenCode, GitHub CLI
-
-### Windows
+### Tools covered
 
 - Fastfetch
 - OpenCode
@@ -26,7 +19,7 @@ Cross-platform config for Linux and Windows, kept in one repo.
 - Windows Terminal
 - Windows PowerShell profile
 
-## Installing on Windows
+### Installing
 
 From the repo root:
 
@@ -35,6 +28,32 @@ From the repo root:
 ```
 
 It symlinks everything under `windows/` into place under `%USERPROFILE%`, `%APPDATA%`, or `%LOCALAPPDATA%` (mapped by path), materializing any `.template` file into a real file first. Creating symlinks needs either an elevated PowerShell or Developer Mode enabled (Settings → Privacy & Security → Developer Mode).
+
+## Linux
+
+### Tools covered
+
+- Shell and core: `.bashrc`, `.bash_profile`, `.gitconfig`, `.npmrc`, `.prettierrc.json`
+- Terminal: Alacritty, Kitty
+- Editors: Zed, VS Code
+- System and UI: Niri, XDG-Desktop-Portal, XFCE, Fastfetch, Fcitx5, Noctalia
+- AI and CLI: OpenCode, GitHub CLI
+
+### Installing
+
+From the repo root:
+
+```bash
+./install.sh
+```
+
+It symlinks everything under `linux/` into place under `$HOME`, materializing any `.template` file into a real file first.
+
+## Layout
+
+- `linux/` — Linux configs and dotfiles.
+- `windows/` — Windows configs, actively deployed via `install.ps1`.
+- `Legacy/` — retired configs kept for reference only; not installed or symlinked anywhere.
 
 ## Secrets
 
