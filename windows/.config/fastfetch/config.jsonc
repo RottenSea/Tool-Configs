@@ -4,15 +4,7 @@
     "type": "file",
     "source": "C:/Users/%USERNAME%/.config/fastfetch/ascii.txt",
     "color": {
-      "1": "#F5E0DC",
-      "2": "#F5C2E7",
-      "3": "#74C7EC",
-      "4": "#89DCEB",
-      "5": "#94E2D5",
-      "6": "#A6E3A1",
-      "7": "#F9E2AF",
-      "8": "#F9C3A9",
-      "9": "#F2CDCD"
+      "1": "default"
     },
     "padding": {
       "top": 1,

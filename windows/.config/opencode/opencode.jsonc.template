@@ -1,7 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
 
-  "default_agent": "plan",
   "snapshot": true,
   "autoupdate": false,
 
@@ -35,6 +34,45 @@
       "enabled": true,
       "headers": {
         "Authorization": "Bearer YOUR_TOKEN"
+      }
+    }
+  },
+
+  "provider": {
+    "opencode": {
+      "whitelist": []
+    },
+    "NAME_PROVIDER": {
+      "name": "NAME_PROVIDER",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "URL",
+        "apiKey": "API_KEY"
+      },
+      "whitelist": ["NAME_MODEL"],
+      "models": {
+        "": {
+          "name": "NAME_MODEL",
+          "limit": {
+            "context": 256000,
+            "output": 128000
+          },
+          "options": {
+            "reasoningEffort": "high",
+            "textVerbosity": "low"
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high"
+            }
+          }
+        }
       }
     }
   }
