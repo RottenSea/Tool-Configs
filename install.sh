@@ -6,11 +6,19 @@ set -euo pipefail
 # Strategy: Symlink regular files directly; for .template files, materialize
 # inside the repo first, then symlink the materialized result.
 # Everything deployed to ~/ is a symlink, so edits feed back to the repo.
+#
+# Usage: ./install.sh            (install/update symlinks)
+#        ./install.sh --revert   (convert existing symlinks back into standalone files)
 # ============================================
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PLATFORM_DIR="$REPO_ROOT/linux"
 BACKUP_DIR="$HOME/dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
+
+REVERT=false
+if [[ "${1:-}" == "--revert" ]]; then
+    REVERT=true
+fi
 
 # Color definitions
 C_RESET='\033[0m'
@@ -66,6 +74,59 @@ create_symlink() {
 }
 
 # --------------------------------------------
+# Revert: convert an existing managed symlink back into a standalone file
+# Reads through the symlink to capture its resolved content, then replaces
+# the symlink with a plain file holding that content. The repo is untouched.
+# --------------------------------------------
+revert_target() {
+    local target="$1"
+
+    if [[ ! -L "$target" ]]; then
+        return 1
+    fi
+
+    local tmp
+    tmp="$(mktemp "${target}.XXXXXX")"
+    cp -L "$target" "$tmp"
+    rm "$target"
+    mv "$tmp" "$target"
+    return 0
+}
+
+# --------------------------------------------
+# Revert all managed paths (mirrors the file enumeration used by main)
+# --------------------------------------------
+revert_all() {
+    local revert_count=0
+
+    while IFS= read -r -d '' template_file; do
+        local real_file="${template_file%.template}"
+        local rel_path="${real_file#$PLATFORM_DIR/}"
+        local dst="$HOME/$rel_path"
+        if revert_target "$dst"; then
+            log_ok "Reverted $rel_path"
+            (( ++revert_count ))
+        fi
+    done < <(find "$PLATFORM_DIR" -type f -name "*.template" -print0)
+
+    while IFS= read -r -d '' file; do
+        if [[ -f "$file.template" ]]; then
+            continue
+        fi
+        local rel_path="${file#$PLATFORM_DIR/}"
+        local dst="$HOME/$rel_path"
+        if revert_target "$dst"; then
+            log_ok "Reverted $rel_path"
+            (( ++revert_count ))
+        fi
+    done < <(find "$PLATFORM_DIR" -type f ! -name "*.template" -print0)
+
+    echo ""
+    log_ok "Revert complete. $revert_count symlink(s) converted to standalone files."
+    log_info "The repo itself was untouched; these files are now decoupled from it."
+}
+
+# --------------------------------------------
 # Materialize a .template file inside the repo
 # Returns 0 if newly generated, 1 if already exists
 # --------------------------------------------
@@ -103,6 +164,12 @@ main() {
     if [[ ! -d "$PLATFORM_DIR" ]]; then
         log_error "$PLATFORM_DIR not found. Please run this script from the repo root."
         exit 1
+    fi
+
+    if [[ "$REVERT" == true ]]; then
+        log_info "Running in --revert mode: symlinks will be converted back to standalone files."
+        revert_all
+        return 0
     fi
 
     log_info "Backup directory: $BACKUP_DIR"

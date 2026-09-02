@@ -1,6 +1,8 @@
 ﻿#Requires -Version 5.1
 [CmdletBinding()]
-param()
+param(
+    [switch]$Revert
+)
 
 $ErrorActionPreference = 'Stop'
 
@@ -9,6 +11,9 @@ $ErrorActionPreference = 'Stop'
 # Strategy: Symlink regular files directly; for .template files, materialize
 # inside the repo first, then symlink the materialized result.
 # Everything deployed to %USERPROFILE% is a symlink, so edits feed back to the repo.
+#
+# Usage: .\install.ps1            (install/update symlinks)
+#        .\install.ps1 -Revert    (convert existing symlinks back into standalone files)
 # ============================================
 
 $RepoRoot       = $PSScriptRoot
@@ -150,6 +155,59 @@ function New-DotfileSymlink {
 }
 
 # --------------------------------------------
+# Revert: convert an existing managed symlink back into a standalone file
+# Reads through the symlink to capture its resolved content, then replaces
+# the symlink with a plain file holding that content. The repo is untouched.
+# --------------------------------------------
+function Invoke-RevertTarget {
+    param([string]$TargetPath)
+
+    $item = Get-Item -LiteralPath $TargetPath -Force -ErrorAction SilentlyContinue
+    if (-not $item -or $item.LinkType -ne 'SymbolicLink') {
+        return $false
+    }
+
+    $bytes = [System.IO.File]::ReadAllBytes($TargetPath)
+    Remove-Item -LiteralPath $TargetPath -Force
+    [System.IO.File]::WriteAllBytes($TargetPath, $bytes)
+    return $true
+}
+
+# --------------------------------------------
+# Revert all managed paths (mirrors the file enumeration used by Main)
+# --------------------------------------------
+function Invoke-RevertAll {
+    $revertCount = 0
+
+    $templateFiles = Get-ChildItem -Path $PlatformDir -Recurse -File -Filter '*.template'
+    foreach ($templateFile in $templateFiles) {
+        $realFilePath = $templateFile.FullName -replace '\.template$', ''
+        $relPath = ($realFilePath.Substring($PlatformDir.Length + 1) -replace '\\', '/')
+        $dstPath = Resolve-TargetPath -RelativePath $relPath
+        if (Invoke-RevertTarget -TargetPath $dstPath) {
+            Write-Ok "Reverted $relPath"
+            $revertCount++
+        }
+    }
+
+    $allFiles = Get-ChildItem -Path $PlatformDir -Recurse -File | Where-Object { $_.Extension -ne '.template' }
+    foreach ($file in $allFiles) {
+        $relativePath = ($file.FullName.Substring($PlatformDir.Length + 1) -replace '\\', '/')
+        if (Test-Path ($file.FullName + '.template')) { continue }
+
+        $dstPath = Resolve-TargetPath -RelativePath $relativePath
+        if (Invoke-RevertTarget -TargetPath $dstPath) {
+            Write-Ok "Reverted $relativePath"
+            $revertCount++
+        }
+    }
+
+    Write-Host ""
+    Write-Ok "Revert complete. $revertCount symlink(s) converted to standalone files."
+    Write-Info "The repo itself was untouched; these files are now decoupled from it."
+}
+
+# --------------------------------------------
 # Materialize a .template file inside the repo
 # Returns $true if newly generated, $false if already exists
 # --------------------------------------------
@@ -189,6 +247,12 @@ function Main {
     if (-not (Test-Path $PlatformDir)) {
         Write-ErrorColored "$PlatformDir not found. Please run this script from the repo root."
         exit 1
+    }
+
+    if ($Revert) {
+        Write-Info "Running in -Revert mode: symlinks will be converted back to standalone files."
+        Invoke-RevertAll
+        return
     }
 
     # Execution policy check
