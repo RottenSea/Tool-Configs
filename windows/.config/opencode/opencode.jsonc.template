@@ -42,6 +42,9 @@
     "opencode": {
       "whitelist": []
     },
+    "github-copilot": {
+      "whitelist": []
+    },
     "NAME_PROVIDER": {
       "name": "NAME_PROVIDER",
       "npm": "@ai-sdk/openai-compatible",
