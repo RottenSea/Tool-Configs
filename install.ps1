@@ -1,7 +1,8 @@
 ﻿#Requires -Version 5.1
 [CmdletBinding()]
 param(
-    [switch]$Revert
+    [switch]$Revert,
+    [switch]$Backup
 )
 
 $ErrorActionPreference = 'Stop'
@@ -14,11 +15,13 @@ $ErrorActionPreference = 'Stop'
 #
 # Usage: .\install.ps1            (install/update symlinks)
 #        .\install.ps1 -Revert    (convert existing symlinks back into standalone files)
+#        .\install.ps1 -Backup    (copy local secret files into repo\backup, outside git)
 # ============================================
 
 $RepoRoot       = $PSScriptRoot
 $PlatformDir    = Join-Path $RepoRoot 'windows'
 $BackupDir      = Join-Path $env:USERPROFILE ("dotfiles_backup_" + (Get-Date -Format 'yyyyMMdd_HHmmss'))
+$PrivateBackupDir = Join-Path $RepoRoot 'backup'
 
 # Color output functions
 function Write-Info  { param([string]$Message) Write-Host "[INFO] $Message"  -ForegroundColor Cyan    }
@@ -208,6 +211,63 @@ function Invoke-RevertAll {
 }
 
 # --------------------------------------------
+# Back up one materialized secret file into repo\backup, mirroring its
+# path under windows\. Used by -Backup so gitignored files (real
+# configs generated from .template) survive outside of git.
+# Returns $true if a file was copied, $false if nothing to back up yet.
+# --------------------------------------------
+function Backup-PrivateFile {
+    param([string]$RealFilePath)
+
+    if (-not (Test-Path $RealFilePath)) {
+        return $false
+    }
+
+    $relPath  = $RealFilePath.Substring($PlatformDir.Length + 1)
+    $destPath = Join-Path (Join-Path $PrivateBackupDir 'windows') $relPath
+
+    # Drop any stale backup before copying the current version in its place
+    if (Test-Path $destPath) {
+        Remove-Item -Path $destPath -Force
+    }
+
+    $destParent = Split-Path -Parent $destPath
+    if (-not (Test-Path $destParent)) {
+        New-Item -ItemType Directory -Path $destParent -Force | Out-Null
+    }
+
+    Copy-Item -Path $RealFilePath -Destination $destPath -Force
+    Write-Ok "Backed up windows/$relPath"
+    return $true
+}
+
+# --------------------------------------------
+# Back up every materialized secret file (mirrors the .template
+# enumeration used by Main)
+# --------------------------------------------
+function Invoke-PrivacyBackup {
+    $templateFiles = Get-ChildItem -Path $PlatformDir -Recurse -File -Filter '*.template'
+    $backupCount  = 0
+    $skippedCount = 0
+
+    foreach ($templateFile in $templateFiles) {
+        $realFilePath = $templateFile.FullName -replace '\.template$', ''
+        if (Backup-PrivateFile -RealFilePath $realFilePath) {
+            $backupCount++
+        } else {
+            $relPath = $realFilePath.Substring($PlatformDir.Length + 1)
+            Write-Info "Skipping (not materialized yet): $relPath"
+            $skippedCount++
+        }
+    }
+
+    Write-Host ""
+    Write-Ok "Privacy backup complete. $backupCount file(s) backed up, $skippedCount skipped."
+    Write-Info "Backup location: $PrivateBackupDir"
+    Write-Warn "This folder holds secrets — it stays out of git (see .gitignore)."
+}
+
+# --------------------------------------------
 # Materialize a .template file inside the repo
 # Returns $true if newly generated, $false if already exists
 # --------------------------------------------
@@ -249,9 +309,20 @@ function Main {
         exit 1
     }
 
+    if ($Revert -and $Backup) {
+        Write-ErrorColored "-Revert and -Backup are mutually exclusive. Run one at a time."
+        exit 1
+    }
+
     if ($Revert) {
         Write-Info "Running in -Revert mode: symlinks will be converted back to standalone files."
         Invoke-RevertAll
+        return
+    }
+
+    if ($Backup) {
+        Write-Info "Running in -Backup mode: local secret files will be copied into backup\."
+        Invoke-PrivacyBackup
         return
     }
 

@@ -4,3 +4,6 @@ linux/.config/zed/settings.json
 windows/.config/opencode/opencode.jsonc
 windows/AppData/Local/Packages/Microsoft.WindowsTerminal_8wekyb3d8bbwe/LocalState/settings.json
 windows/AppData/Roaming/Zed/settings.json
+
+# Local copies of the secret files above, made by install.ps1 -Backup / install.sh --backup
+/backup/
