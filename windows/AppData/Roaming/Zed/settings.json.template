@@ -10,6 +10,10 @@
 {
   "cli_default_open_behavior": "existing_window",
   "agent_servers": {},
+  "edit_predictions": {
+    "provider": "zed"
+  },
+  "ui_font_family": "Maple Mono NL NF CN",
   "outline_panel": {
     "auto_fold_dirs": false
   },

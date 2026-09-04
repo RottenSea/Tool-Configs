@@ -10,6 +10,10 @@
 {
   "cli_default_open_behavior": "existing_window",
   "agent_servers": {},
+  "edit_predictions": {
+    "provider": "zed"
+  },
+  "ui_font_family": "Maple Mono NL NF CN",
   "outline_panel": {
     "auto_fold_dirs": false
   },
@@ -98,7 +102,6 @@
     "openai_compatible": {}
   },
   "agent": {
-    "default_profile": "ask",
     "sandbox_permissions": {
       "allow_unsandboxed": true
     },
@@ -126,12 +129,6 @@
       }
     },
     "enable_feedback": false,
-    "default_model": {
-      "provider": "PROVIDER_ID",
-      "model": "MODEL_ID",
-      "enable_thinking": true,
-      "effort": "high"
-    },
     "sidebar_side": "right",
     "dock": "right",
     "favorite_models": [],

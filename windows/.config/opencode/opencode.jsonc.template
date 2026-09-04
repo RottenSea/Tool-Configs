@@ -54,7 +54,7 @@
       },
       "whitelist": ["NAME_MODEL"],
       "models": {
-        "": {
+        "NAME_MODEL": {
           "name": "NAME_MODEL",
           "limit": {
             "context": 256000,

@@ -7,3 +7,6 @@ windows/AppData/Roaming/Zed/settings.json
 
 # Local copies of the secret files above, made by install.ps1 -Backup / install.sh --backup
 /backup/
+
+# Temp folder
+/Temp

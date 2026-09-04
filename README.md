@@ -84,3 +84,5 @@ API keys and tokens never get committed. The repo uses a sanitized template patt
 - On a new machine, copy the template to its real path and fill in your own values.
 
 Since real secret files are never committed, `.\install.ps1 -Backup` (Windows) / `./install.sh --backup` (Linux) copies them into `backup/`, mirroring their path under `windows/`/`linux/`. That folder is gitignored too. It's a local safety net, not a way to share secrets through the repo.
+
+Templates also should not hardcode values that a tool auto-generates per machine or per install (e.g. Windows Terminal profile GUIDs for shells it detects, WSL distro entries) — these differ across machines and change as tools are installed/removed. Let the tool regenerate them locally instead of committing a snapshot.
