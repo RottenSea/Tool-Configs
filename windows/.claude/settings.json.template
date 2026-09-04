@@ -3,7 +3,6 @@
     "commit": "",
     "pr": ""
   },
-  "autoConnectIde": true,
   "autoDreamEnabled": false,
   "autoMemoryEnabled": false,
   "autoScrollEnabled": true,
@@ -32,7 +31,6 @@
   "preferredNotifChannel": "notifications_disabled",
   "promptSuggestionEnabled": false,
   "showThinkingSummaries": true,
-  "skillListingBudgetFraction": 0.05,
   "skillOverrides": {
     "claude-api": "off",
     "fewer-permission-prompts": "off",
@@ -44,9 +42,7 @@
     "command": "~/.claude/statusline.sh",
     "type": "command"
   },
-  "switchModelsOnFlag": false,
   "terminalProgressBarEnabled": false,
   "tui": "fullscreen",
-  "verbose": true,
-  "workflowKeywordTriggerEnabled": false
+  "verbose": true
 }
