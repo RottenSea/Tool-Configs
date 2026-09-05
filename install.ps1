@@ -19,7 +19,7 @@ $ErrorActionPreference = 'Stop'
 # ============================================
 
 $RepoRoot       = $PSScriptRoot
-$PlatformDir    = Join-Path $RepoRoot 'windows'
+$PlatformDir    = Join-Path $RepoRoot 'Windows'
 $BackupDir      = Join-Path $env:USERPROFILE ("dotfiles_backup_" + (Get-Date -Format 'yyyyMMdd_HHmmss'))
 $PrivateBackupDir = Join-Path $RepoRoot 'backup'
 
@@ -60,7 +60,7 @@ function Test-SymlinkPermission {
 }
 
 # --------------------------------------------
-# Path mapping: resolve windows/ relative path to actual target path
+# Path mapping: resolve Windows/ relative path to actual target path
 # Supports AppData special path mapping
 # --------------------------------------------
 function Resolve-TargetPath {
@@ -212,7 +212,7 @@ function Invoke-RevertAll {
 
 # --------------------------------------------
 # Back up one materialized secret file into repo\backup, mirroring its
-# path under windows\. Used by -Backup so gitignored files (real
+# path under Windows\. Used by -Backup so gitignored files (real
 # configs generated from .template) survive outside of git.
 # Returns $true if a file was copied, $false if nothing to back up yet.
 # --------------------------------------------
@@ -224,7 +224,7 @@ function Backup-PrivateFile {
     }
 
     $relPath  = $RealFilePath.Substring($PlatformDir.Length + 1)
-    $destPath = Join-Path (Join-Path $PrivateBackupDir 'windows') $relPath
+    $destPath = Join-Path (Join-Path $PrivateBackupDir 'Windows') $relPath
 
     # Drop any stale backup before copying the current version in its place
     if (Test-Path $destPath) {
@@ -237,7 +237,7 @@ function Backup-PrivateFile {
     }
 
     Copy-Item -Path $RealFilePath -Destination $destPath -Force
-    Write-Ok "Backed up windows/$relPath"
+    Write-Ok "Backed up Windows/$relPath"
     return $true
 }
 

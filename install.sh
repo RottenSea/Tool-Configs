@@ -13,7 +13,7 @@ set -euo pipefail
 # ============================================
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PLATFORM_DIR="$REPO_ROOT/linux"
+PLATFORM_DIR="$REPO_ROOT/Linux"
 BACKUP_DIR="$HOME/dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
 PRIVATE_BACKUP_DIR="$REPO_ROOT/backup"
 
@@ -132,7 +132,7 @@ revert_all() {
 
 # --------------------------------------------
 # Back up one materialized secret file into repo/backup, mirroring its
-# path under linux/. Used by --backup so gitignored files (real
+# path under Linux/. Used by --backup so gitignored files (real
 # configs generated from .template) survive outside of git.
 # Returns 0 if a file was copied, 1 if nothing to back up yet.
 # --------------------------------------------
@@ -144,7 +144,7 @@ backup_private_file() {
     fi
 
     local rel_path="${real_file#$PLATFORM_DIR/}"
-    local dest_path="$PRIVATE_BACKUP_DIR/linux/$rel_path"
+    local dest_path="$PRIVATE_BACKUP_DIR/Linux/$rel_path"
 
     # Drop any stale backup before copying the current version in its place
     if [[ -e "$dest_path" ]]; then
@@ -153,7 +153,7 @@ backup_private_file() {
 
     mkdir -p "$(dirname "$dest_path")"
     cp "$real_file" "$dest_path"
-    log_ok "Backed up linux/$rel_path"
+    log_ok "Backed up Linux/$rel_path"
     return 0
 }
 
